@@ -95,6 +95,10 @@ export default class Board extends Component {
             o_score: pieces['O']
         });
 
+        if(moves.indexOf('') == -1){
+            this.endGame();
+        }
+
     }
 
     render() {
@@ -224,38 +228,67 @@ export default class Board extends Component {
 
         }
 
-        // alert the room creator if they want to restart the game or call it quits
-        if(this.props.is_room_creator && moves.indexOf('') == -1){
-            Alert.alert(
-              "Restart Game",
-              "Do you want to restart the game?",
-              [
-                {
-                  text: "Nope. Let's call it quits.",
-                  onPress: () => {
-                    this.setState({
-                                moves: range(36).fill(''),
-                                x_score: 0,
-                                o_score: 0
-                            });
-                            this.props.endGame();
-                  },
-                  style: 'cancel'
-                },
-                {
-                  text: 'Heck yeah!',
-                  onPress: () => {
-                            this.setState({
-                                moves: range(36).fill(''),
-                                x_score: 0,
-                                o_score: 0
-                            });
-                  }
-                },
-              ],
-              { cancelable: false }
-            );
+        if(moves.indexOf('') == -1){
+            this.endGame();
         }
+
+    }
+
+    endGame() {
+        // All squares have been filled
+        // I.e.: no more moves can be made - end game
+
+        var x_score = this.state.x_score;
+        var o_score = this.state.o_score;
+
+        var winner = '';
+        if (x_score != o_score) {
+            var x_won = (x_score > o_score) ? true : false;
+            var x_user = (this.props.is_room_creator) ? true : false;
+
+            if (x_won && x_user) {
+                winner = this.props.username;
+            } else if(x_won && !x_user) {
+                winner = this.props.rival_username;
+            } else if (!x_won && x_user) {
+                winner = this.props.rival_username;
+            } else if (!x_won && !x_user) {
+                winner = this.props.username;
+            }
+        } else {
+            winner = 'it was a tie';
+        }
+
+        // Add in if statement here
+        Alert.alert(
+            "The winner is: " + winner,
+            "Do you want to restart the game?",
+          [
+            {
+              text: "Nope. Let's call it quits.",
+              onPress: () => {
+                this.setState({
+                            moves: range(36).fill(''),
+                            x_score: 0,
+                            o_score: 0
+                        });
+                        this.props.endGame();
+              },
+              style: 'cancel'
+            },
+            {
+              text: 'Heck yeah!',
+              onPress: () => {
+                        this.setState({
+                            moves: range(36).fill(''),
+                            x_score: 0,
+                            o_score: 0
+                        });
+              }
+            },
+          ],
+          { cancelable: false }
+        );
     }
 
 }
