@@ -12,6 +12,10 @@ import {
 
 import range from 'lodash.range';
 
+const height_proportion = '80%';
+const width_proportion = '95%';
+const border_radius = 30;
+
 export default class Board extends Component {
 
     constructor() {
@@ -45,8 +49,8 @@ export default class Board extends Component {
             o_score: 0
         }
 
-        this.xColor = 'white';
-        this.oColor = 'red';
+        this.oColor = '#0092CC';
+        this.xColor = '#779933';
         this.backgroundColor = '#fcbe11';
 
     }
@@ -161,7 +165,9 @@ export default class Board extends Component {
             } else if(this.state.moves[id] == 'O') {
                 color = this.oColor;
             } else {
-                color = this.backgroundColor;
+                // Dot has not been clicked yet
+                // Set color of square to black
+                color = '#000';
             }
 
             return (
@@ -171,7 +177,7 @@ export default class Board extends Component {
                     underlayColor={"#CCC"}
                     style={styles.block}>
 
-                    <Text style={[styles.block_text, {backgroundColor:color}]}>
+                    <Text style={[styles.dot_style, {backgroundColor:color}]}>
 
                     </Text>
 
@@ -261,7 +267,7 @@ const styles = StyleSheet.create({
     board: {
         flex: 7,
         flexDirection: 'column',
-        borderWidth: 1,
+        borderWidth: 2,
     },
     row: {
         flex: 1,
@@ -270,17 +276,15 @@ const styles = StyleSheet.create({
     },
     block: {
         flex: 1,
-        //borderRightWidth: 1,
-        borderColor: '#000',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 30,
-        backgroundColor: '#FFEB3B',
+        backgroundColor: '#000',
     },
-    block_text: {
-        width: 62,
-        height: 100,
-        borderRadius: 100/2,
+    dot_style: {
+        width: width_proportion,
+        height: height_proportion,
+        borderRadius: border_radius,
+        color: '#000',
     },
     scores_container: {
         flex: 2,
