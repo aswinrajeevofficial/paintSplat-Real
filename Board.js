@@ -21,23 +21,50 @@ export default class Board extends Component {
         this.generateBlocks = this.generateBlocks.bind(this);
 
         this.possible_combinations = [
-          [0, 3, 6],
-          [1, 4, 7],
-          [0, 1, 2],
-          [3, 4, 5],
-          [2, 5, 8],
-          [6, 7, 8],
-          [0, 4, 8],
-          [2, 4, 6]
-        ];
+            [0],
+            [1],
+            [2],
+            [3],
+            [4],
+            [5],
+            [6],
+            [7],
+            [8],
+            [9],
+            [10],
+            [11],
+            [12],
+            [13],
+            [14],
+            [15],
+            [16],
+            [17],
+            [18],
+            [19],
+            [20],
+            [21],
+            [22],
+            [23],
+            [24],
+            [25],
+            [26],
+            [27],
+            [28],
+            [29],
+            [30],
+            [31],
+            [32],
+            [33],
+            [34],
+            [35] ];
 
         this.ids = [
             [0, 1, 2, 3, 4, 5],
             [6, 7, 8, 9, 10, 11],
-            [12, 13, 14, 15, 16],
-            [17, 18, 19, 20, 21],
-            [22, 23, 24, 25, 26],
-            [27, 28, 29, 30, 31],
+            [12, 13, 14, 15, 16, 17],
+            [18, 19, 20, 21, 22, 23],
+            [24, 25, 26, 27, 28, 29],
+            [30, 31, 32, 33, 34, 35],
         ];
 
         var num_of_cols = 6;
@@ -51,13 +78,13 @@ export default class Board extends Component {
         ];
 
         this.state = {
-            moves: range(9).fill(''),
+            moves: range(36).fill(''),
             x_score: 0,
             o_score: 0
         }
 
-        this.xColor = 'black';
-        this.oColor = 'white';
+        this.xColor = 'white';
+        this.oColor = 'red';
         this.backgroundColor = '#fcbe11';
 
     }
@@ -82,24 +109,21 @@ export default class Board extends Component {
 
     updateScores(moves) {
 
+        // Get current user scores
         var pieces = {
-            'X': 0,
-            'O': 0
+            'X': this.state.x_score,
+            'O': this.state.o_score
         }
 
-        function isInArray(moves, piece, element, index, array){
-
-            return moves[element] && moves[element] == piece;
+        // Opponent added a dot
+        // Update score for their character
+        if(this.props.is_room_creator) {
+            pieces['O'] += 1;
+        } else {
+            pieces['X'] += 1;
         }
 
-        this.possible_combinations.forEach((p_row) => {
-            if(p_row.every(isInArray.bind(null, moves, 'X'))){
-                pieces['X'] += 1;
-            }else if(p_row.every(isInArray.bind(null, moves, 'O'))){
-                pieces['O'] += 1;
-            }
-        });
-
+        // Save the score
         this.setState({
             x_score: pieces['X'],
             o_score: pieces['O']
@@ -107,8 +131,20 @@ export default class Board extends Component {
 
     }
 
-
     render() {
+        if(this.props.is_room_creator) {
+            var user_score = this.state.x_score;
+            var user_color = this.state.xColor;
+
+            var opponent_score = this.state.o_score;
+            var opponent_color = this.state.oColor;
+        } else {
+            var user_score = this.state.o_score;
+            var user_color = this.state.oColor;
+
+            var opponent_score = this.state.x_score;
+            var opponent_color = this.state.xColor;
+        }
 
         return (
             <View style={styles.board_container}>
@@ -117,16 +153,21 @@ export default class Board extends Component {
                 </View>
 
                 <View style={styles.scores_container}>
+
                     <View style={styles.score}>
-                        <Text style={styles.user_score}>{this.state.x_score}</Text>
-                        <Text style={styles.username}>{this.props.username}</Text>
+                        <Text style={[styles.user_score, {color: user_color}]}>
+                            {user_score}
+                        </Text>
+                        <Text style={[styles.username, {color: user_color}]}>
+                            {this.props.username}
+                        </Text>
                     </View>
 
                     <View style={styles.score}>
-                        <Text style={[styles.user_score, {color: this.xColor}]}>
-                            {this.state.x_score}
+                        <Text style={[styles.user_score, {color: opponent_color}]}>
+                            {opponent_score}
                         </Text>
-                        <Text style={[styles.username, {color: this.oColor}]}>
+                        <Text style={[styles.username, {color: opponent_color}]}>
                             {this.props.rival_username}
                         </Text>
                     </View>
@@ -152,6 +193,7 @@ export default class Board extends Component {
             let id = this.ids[row_index][index];
 
             var color;
+            // Pippa look here
             if(this.state.moves[id] == 'X') {
                 color = this.xColor;
             } else if(this.state.moves[id] == 'O') {
@@ -179,6 +221,11 @@ export default class Board extends Component {
 
     onMakeMove(row_index, index) {
 
+        var pieces = {
+            'X': this.state.x_score,
+            'O': this.state.o_score
+        }
+
         let moves = this.state.moves;
         let id = this.ids[row_index][index];
 
@@ -189,7 +236,17 @@ export default class Board extends Component {
                 moves
             });
 
-            this.updateScores.call(this, moves);
+            if(this.props.piece === 'X'){
+                pieces['X'] += 1;
+                this.setState({
+                    x_score: pieces['X']
+                });
+            }else if(this.props.piece === 'O'){
+                pieces['O'] += 1;
+                this.setState({
+                    o_score: pieces['O']
+                });
+            }
 
             this.props.channel.trigger('client-make-move', {
                 row_index: row_index,
@@ -209,7 +266,7 @@ export default class Board extends Component {
                   text: "Nope. Let's call it quits.",
                   onPress: () => {
                     this.setState({
-                                moves: range(9).fill(''),
+                                moves: range(36).fill(''),
                                 x_score: 0,
                                 o_score: 0
                             });
@@ -221,7 +278,7 @@ export default class Board extends Component {
                   text: 'Heck yeah!',
                   onPress: () => {
                             this.setState({
-                                moves: range(9).fill(''),
+                                moves: range(36).fill(''),
                                 x_score: 0,
                                 o_score: 0
                             });
@@ -241,24 +298,26 @@ const styles = StyleSheet.create({
     },
     board: {
         flex: 7,
-        flexDirection: 'column'
+        flexDirection: 'column',
+        borderWidth: 1,
     },
     row: {
         flex: 1,
         flexDirection: 'row',
-        borderBottomWidth: 1,
+        //borderBottomWidth: 1,
     },
     block: {
         flex: 1,
-        borderRightWidth: 1,
+        //borderRightWidth: 1,
         borderColor: '#000',
         alignItems: 'center',
         justifyContent: 'center',
-        // borderRadius: 30,
+        borderRadius: 30,
+        backgroundColor: '#FFEB3B',
     },
     block_text: {
-        width: 50,
-        height: 50,
+        width: 62,
+        height: 100,
         borderRadius: 100/2,
     },
     scores_container: {
