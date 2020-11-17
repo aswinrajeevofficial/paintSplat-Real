@@ -15,6 +15,7 @@ import Board from './Board';
 import shortid  from 'shortid';
 import Spinner from 'react-native-spinkit';
 import SinglePlayer from './SinglePlayer';
+import Clipboard from '@react-native-community/clipboard';
 
 export default class App extends Component {
 
@@ -141,9 +142,10 @@ export default class App extends Component {
     // alert the user of the ID that the friend needs to enter
     Alert.alert(
       'Share this room ID to your friend',
-      room_id,
+      room_id, 
       [
         {text: 'Done'},
+        { text: 'Copy ID', onPress: () => {this.copyToClipboard(room_id)} }
       ],
       { cancelable: false }
     );
@@ -155,6 +157,10 @@ export default class App extends Component {
       is_room_creator: true
     });
 
+  }
+
+  copyToClipboard(room_id){
+    Clipboard.setString(room_id);
   }
 
   onPressCreateRoomSP() {
