@@ -42,6 +42,7 @@ export default class App extends Component {
     this.joinRoom2 = this.joinRoom2.bind(this);
     this.onCancelJoinRoom = this.onCancelJoinRoom.bind(this);
     this.endGame = this.endGame.bind(this);
+    this.onPressHome = this.onPressHome.bind(this);
   }
 
   componentDidMount(){
@@ -78,7 +79,10 @@ export default class App extends Component {
   render() {
     return(
     <View style={styles.container}>
-      <Header title={"PaintSplat"} />
+      <Header 
+      onPressHome = {this.onPressHome}
+      title={"PaintSplat"} 
+      />
       <Spinner
           style={styles.spinner}
           isVisible={this.state.is_waiting}
@@ -94,6 +98,7 @@ export default class App extends Component {
             onPressCreateRoom={this.onPressCreateRoom}
             onPressCreateRoomSP={this.onPressCreateRoomSP}
             onPressJoinRoom={this.onPressJoinRoom}
+            
             joinRoom={this.joinRoom}
             show_prompt={this.state.show_prompt}
             onCancelJoinRoom={this.onCancelJoinRoom}
@@ -160,7 +165,10 @@ export default class App extends Component {
       is_room_creator: true,
       is_playingSp: true
     }); 
+  }
 
+  onPressHome(){
+    this.endGame();
   }
 
 

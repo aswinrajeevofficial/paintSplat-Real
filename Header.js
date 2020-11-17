@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
 
 
@@ -15,6 +16,11 @@ export default class Header extends Component {
     return (
       <View style={styles.title_container}>
         <Text style={styles.title}>{this.props.title}</Text>
+        <Button
+              onPress={this.props.onPressHome}
+              title="Home"
+              color="#4c87ea"
+          />
       </View>
     );
   }
