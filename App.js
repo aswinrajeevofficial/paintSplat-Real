@@ -15,6 +15,7 @@ import Board from './Board';
 import shortid  from 'shortid';
 import Spinner from 'react-native-spinkit';
 import SinglePlayer from './SinglePlayer';
+import Clipboard from '@react-native-community/clipboard';
 
 export default class App extends Component {
 
@@ -46,8 +47,8 @@ export default class App extends Component {
   }
 
   componentDidMount(){
-    this.pusher = new Pusher('686afe039b977ed6da75', {
-      authEndpoint: 'https://739a4e7cebf0.ngrok.io/pusher/auth',
+    this.pusher = new Pusher('a2335507af025ab0bf0d', {
+      authEndpoint: 'https://c6bfd44f264c.ngrok.io/pusher/auth',
       cluster: 'eu',
       encrypted: true
     });
@@ -79,9 +80,9 @@ export default class App extends Component {
   render() {
     return(
     <View style={styles.container}>
-      <Header 
+      <Header
       onPressHome = {this.onPressHome}
-      title={"PaintSplat"} 
+      title={"PaintSplat"}
       />
       <Spinner
           style={styles.spinner}
@@ -98,7 +99,7 @@ export default class App extends Component {
             onPressCreateRoom={this.onPressCreateRoom}
             onPressCreateRoomSP={this.onPressCreateRoomSP}
             onPressJoinRoom={this.onPressJoinRoom}
-            
+
             joinRoom={this.joinRoom}
             show_prompt={this.state.show_prompt}
             onCancelJoinRoom={this.onCancelJoinRoom}
@@ -144,6 +145,7 @@ export default class App extends Component {
       room_id,
       [
         {text: 'Done'},
+        { text: 'Copy ID', onPress: () => {this.copyToClipboard(room_id)} }
       ],
       { cancelable: false }
     );
@@ -157,6 +159,10 @@ export default class App extends Component {
 
   }
 
+  copyToClipboard(room_id){
+    Clipboard.setString(room_id);
+  }
+
   onPressCreateRoomSP() {
 
     // show loading state while waiting for someone to join the room
@@ -164,7 +170,7 @@ export default class App extends Component {
       piece: 'X', // room creator is always X
       is_room_creator: true,
       is_playingSp: true
-    }); 
+    });
   }
 
   onPressHome(){

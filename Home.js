@@ -24,7 +24,7 @@ export default class Home extends Component {
       return (
         <View style={styles.content_container}>
           <Image source={require('./resources/images/logo.png')} style={styles.logo}/>
-          <View style={[styles.button_container, {marginTop: 35, marginBottom:45}]}>
+          <View style={[styles.button_container, {marginTop: 35, marginBottom:40}]}>
             <Button
               onPress={this.props.onPressCreateRoomSP}
               title="   Play Single Player   "
