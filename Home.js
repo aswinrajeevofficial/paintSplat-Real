@@ -15,19 +15,19 @@ import Prompt from 'react-native-prompt';
 export default class Home extends Component {
 
     render() {
-  
-      return (        
+
+      return (
         <View style={styles.content_container}>
           <View style={styles.input_container}>
             <TextInput
               style={styles.text_input}
               onChangeText={this.props.onChangeUsername}
-              placeholder={"What's your name?"}
+              placeholder={"Enter your username"}
               maxLength={20}
               value={this.props.username}
             />
           </View>
-  
+
           <View style={styles.button_container}>
             <Button
               onPress={this.props.onPressCreateRoom}
@@ -42,7 +42,7 @@ export default class Home extends Component {
               style={styles.button}
             />
           </View>
-  
+
           <Prompt
             title="Enter Room Name"
             visible={this.props.show_prompt}
@@ -52,13 +52,13 @@ export default class Home extends Component {
         </View>
       );
     }
-  
-  
+
+
   }
-  
+
   const styles = StyleSheet.create({
     content_container: {
-      flex: 1
+      flex: 1,
     },
     input_container: {
       marginBottom: 20
@@ -66,19 +66,24 @@ export default class Home extends Component {
     button_container: {
       flexDirection: 'row',
       justifyContent: 'space-around',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     text_input: {
       backgroundColor: '#FFF',
+      color: '#000',
       height: 40,
-      borderColor: '#CCC', 
-      borderWidth: 1
+      borderColor: '#CCC',
+      borderWidth: 1,
+      marginHorizontal: 25,
+      paddingHorizontal: 20
     },
     button: {
-      flex: 1
+      flex: 1,
+      padding: 6,
+      // borderRadius: 50,
     }
   });
-  
+
   Home.propTypes = {
     username: PropTypes.string,
     onPressCreateRoom: PropTypes.func.isRequired,

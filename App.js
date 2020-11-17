@@ -1,4 +1,4 @@
-  
+
 import React, { Component } from 'react';
 
 import {
@@ -43,8 +43,8 @@ export default class App extends Component {
   }
 
   componentDidMount(){
-    this.pusher = new Pusher('a2335507af025ab0bf0d', {
-      authEndpoint: 'https://4033211a76f6.ngrok.io/pusher/auth',
+    this.pusher = new Pusher('', {
+      authEndpoint: 'https://.ngrok.io/pusher/auth',
       cluster: 'eu',
       encrypted: true
     });
@@ -53,7 +53,7 @@ export default class App extends Component {
 
   componentDidUpdate() {
     if(this.state.is_waiting && !this.is_channel_binded){
-      
+
       this.game_channel.bind('client-joined', (data) => {
         this.setState({
           is_waiting: false,
@@ -78,30 +78,30 @@ export default class App extends Component {
     return(
     <View style={styles.container}>
       <Header title={"PaintSplat"} />
-      <Spinner 
-          style={styles.spinner} 
+      <Spinner
+          style={styles.spinner}
           isVisible={this.state.is_waiting}
-          size={75} 
-          type={"WanderingCubes"} 
+          size={75}
+          type={"WanderingCubes"}
           color={"#549eff"}
         />
         {
           !this.state.is_playing && !this.state.is_waiting &&
-          <Home 
-            username={this.state.name} 
+          <Home
+            username={this.state.name}
             onChangeUsername={this.onChangeUsername}
-            onPressCreateRoom={this.onPressCreateRoom} 
+            onPressCreateRoom={this.onPressCreateRoom}
             onPressJoinRoom={this.onPressJoinRoom}
-            joinRoom={this.joinRoom}  
+            joinRoom={this.joinRoom}
             show_prompt={this.state.show_prompt}
             onCancelJoinRoom={this.onCancelJoinRoom}
           />
         }
         {
           this.state.is_playing &&
-          <Board 
-            channel={this.game_channel} 
-            username={this.state.username} 
+          <Board
+            channel={this.game_channel}
+            username={this.state.username}
             piece={this.state.piece}
             rival_username={this.state.rival_username}
             is_room_creator={this.state.is_room_creator}
@@ -118,11 +118,11 @@ export default class App extends Component {
 
 
   onPressCreateRoom() {
-   
+
     let room_id = shortid.generate();
     this.game_channel = this.pusher.subscribe('private-' + room_id);
-    
-    // alert the user of the ID that the friend needs to enter 
+
+    // alert the user of the ID that the friend needs to enter
     Alert.alert(
       'Share this room ID to your friend',
       room_id,
@@ -148,10 +148,10 @@ export default class App extends Component {
     });
   }
 
-  
+
   joinRoom(room_id) {
     this.game_channel = this.pusher.subscribe('private-' + room_id);
-    setTimeout(this.joinRoom2, 2000)    
+    setTimeout(this.joinRoom2, 2000)
   }
 
   joinRoom2(){
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#fcbe11',
   },
   spinner: {
     flex: 1,
