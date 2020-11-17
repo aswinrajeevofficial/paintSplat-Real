@@ -109,7 +109,7 @@ export default class SinglePlayer extends Component {
                             </Text>
                         </View>
                     </View>
-                
+
             </View>
         );
     }
@@ -124,7 +124,7 @@ export default class SinglePlayer extends Component {
             );
         });
     }
-    
+
     getRandomValue(min, max) {
         return String(Math.random() * (max - min) + min);
     }
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
         //flexDirection: 'column',
         borderWidth: 4,
         padding: board_inner_padding,
-        borderRadius: 20,
+        borderRadius: 18,
         height: board_height,
         width: board_width
     },
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#000',
-        borderRadius: 20
+        borderRadius: 18
     },
     score: {
         flex: 1,

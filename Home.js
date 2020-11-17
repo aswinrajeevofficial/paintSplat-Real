@@ -14,7 +14,8 @@ import {
 
 import Prompt from 'react-native-prompt';
 
-
+const logo_height = '55%';
+const logo_width = '100%';
 
 export default class Home extends Component {
 
@@ -23,10 +24,10 @@ export default class Home extends Component {
       return (
         <View style={styles.content_container}>
           <Image source={require('./resources/images/logo.png')} style={styles.logo}/>
-          <View style={styles.button_container}>
+          <View style={[styles.button_container, {marginTop: 35, marginBottom:45}]}>
             <Button
               onPress={this.props.onPressCreateRoomSP}
-              title="Play Single Player"
+              title="   Play Single Player   "
               color="#4c87ea"
               style={styles.button}
             />
@@ -44,14 +45,14 @@ export default class Home extends Component {
           <View style={styles.button_container}>
             <Button
               onPress={this.props.onPressCreateRoom}
-              title="Create Room"
-              color="#4c87ea"
+              title="   Create Room   "
+              color="#779933"
               style={styles.button}
             />
             <Button
               onPress={this.props.onPressJoinRoom}
-              title="Join Room"
-              color="#1C1C1C"
+              title="   Join Room   "
+              color="#0092CC"
               style={styles.button}
             />
           </View>
@@ -98,8 +99,8 @@ export default class Home extends Component {
     logo: {
       justifyContent: 'center',
       alignItems: 'center',
-      width: 300,
-      height: 250,
+      maxHeight: logo_height,
+      maxWidth: logo_width,
   }
   });
 
