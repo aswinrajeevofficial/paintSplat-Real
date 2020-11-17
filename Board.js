@@ -14,12 +14,12 @@ import range from 'lodash.range';
 
 // Style variables for board
 const board_height = '50%';
-const board_width = '55%';
+const board_width = '60%';
 
 // Style variables for the dots
 const height_proportion = '80%';
 const width_proportion = '95%';
-const border_radius = 30;
+const border_radius = 33;
 
 export default class Board extends Component {
 
@@ -107,32 +107,19 @@ export default class Board extends Component {
     }
 
     render() {
-        if(this.props.is_room_creator) {
-            var user_score = this.state.x_score;
-            var user_color = this.state.xColor;
+        var user_score = (this.props.is_room_creator) ? this.state.x_score : this.state.o_score;
+        var user_color = (this.props.is_room_creator) ? this.xColor : this.oColor;
 
-            var opponent_score = this.state.o_score;
-            var opponent_color = this.state.oColor;
-        } else {
-            var user_score = this.state.o_score;
-            var user_color = this.state.oColor;
+        var opponent_score = (this.props.is_room_creator) ? this.state.o_score : this.state.x_score;
+        var opponent_color = (this.props.is_room_creator) ? this.oColor : this.xColor;
 
-            var opponent_score = this.state.x_score;
-            var opponent_color = this.state.xColor;
-        }
-
-
-        var board_positions = [
-            {
-                'marginLeft': 10,
-                'marginTop': 10
-            }
-        ];
+        var left = this.getRandomValue(0, 45) + '%';
+        var top = this.getRandomValue(0, 60) + '%';
 
         return (
             <View style={styles.page_container}>
                 <View style={styles.board_container}>
-                    <View style={styles.board}>
+                    <View style={[styles.board, {marginLeft: left, marginTop: top}]}>
                         {this.generateRows()}
                     </View>
                 </View>
@@ -161,6 +148,11 @@ export default class Board extends Component {
 
             </View>
         );
+    }
+
+
+    getRandomValue(min, max) {
+        return String(Math.random() * (max - min) + min);
     }
 
 
@@ -322,7 +314,7 @@ const styles = StyleSheet.create({
     },
     board: {
         // flex: 6,
-        // flexDirection: 'column',
+        // flexDirection: 'row',
         borderWidth: 2,
         height: board_height,
         width: board_width,
@@ -345,9 +337,10 @@ const styles = StyleSheet.create({
         color: '#000',
     },
     scores_container: {
-        flex: 2,
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
+        backgroundColor: '#000',
     },
     score: {
         flex: 1,
