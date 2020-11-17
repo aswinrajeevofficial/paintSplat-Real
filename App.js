@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 
 import {
@@ -15,6 +14,7 @@ import Board from './Board';
 
 import shortid  from 'shortid';
 import Spinner from 'react-native-spinkit';
+import SinglePlayer from './SinglePlayer';
 
 export default class App extends Component {
 
@@ -25,6 +25,7 @@ export default class App extends Component {
       piece: '',
       rival_username: '',
       is_playing: false,
+      is_playingSp: false,
       show_prompt: false,
       is_waiting: false,
       is_room_creator: false
@@ -35,6 +36,7 @@ export default class App extends Component {
 
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onPressCreateRoom = this.onPressCreateRoom.bind(this);
+    this.onPressCreateRoomSP = this.onPressCreateRoomSP.bind(this);
     this.onPressJoinRoom = this.onPressJoinRoom.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
     this.joinRoom2 = this.joinRoom2.bind(this);
@@ -43,13 +45,12 @@ export default class App extends Component {
   }
 
   componentDidMount(){
-    this.pusher = new Pusher('', {
-      authEndpoint: 'https://.ngrok.io/pusher/auth',
+    this.pusher = new Pusher('686afe039b977ed6da75', {
+      authEndpoint: 'https://739a4e7cebf0.ngrok.io/pusher/auth',
       cluster: 'eu',
       encrypted: true
     });
   }
-
 
   componentDidUpdate() {
     if(this.state.is_waiting && !this.is_channel_binded){
@@ -86,15 +87,25 @@ export default class App extends Component {
           color={"#549eff"}
         />
         {
-          !this.state.is_playing && !this.state.is_waiting &&
+          !this.state.is_playingSp && !this.state.is_playing && !this.state.is_waiting &&
           <Home
             username={this.state.name}
             onChangeUsername={this.onChangeUsername}
             onPressCreateRoom={this.onPressCreateRoom}
+            onPressCreateRoomSP={this.onPressCreateRoomSP}
             onPressJoinRoom={this.onPressJoinRoom}
             joinRoom={this.joinRoom}
             show_prompt={this.state.show_prompt}
             onCancelJoinRoom={this.onCancelJoinRoom}
+          />
+        }
+        {
+          this.state.is_playingSp &&
+          <SinglePlayer
+            username={this.state.username}
+            piece={this.state.piece}
+            is_room_creator={this.state.is_room_creator}
+            endGame={this.endGame}
           />
         }
         {
@@ -141,6 +152,17 @@ export default class App extends Component {
 
   }
 
+  onPressCreateRoomSP() {
+
+    // show loading state while waiting for someone to join the room
+    this.setState({
+      piece: 'X', // room creator is always X
+      is_room_creator: true,
+      is_playingSp: true
+    }); 
+
+  }
+
 
   onPressJoinRoom() {
     this.setState({
@@ -181,7 +203,8 @@ export default class App extends Component {
       is_playing: false,
       show_prompt: false,
       is_waiting: false,
-      is_room_creator: false
+      is_room_creator: false,
+      is_playingSp: false
     });
 
     this.game_channel = null;

@@ -7,10 +7,14 @@ import {
   Text,
   View,
   TextInput,
-  Button
+  Button,
+  TouchableWithoutFeedback,
+  Image
 } from 'react-native';
 
 import Prompt from 'react-native-prompt';
+
+
 
 export default class Home extends Component {
 
@@ -18,6 +22,15 @@ export default class Home extends Component {
 
       return (
         <View style={styles.content_container}>
+          <Image source={require('./resources/images/logo.png')} style={styles.logo}/>
+          <View style={styles.button_container}>
+            <Button
+              onPress={this.props.onPressCreateRoomSP}
+              title="Play Single Player"
+              color="#4c87ea"
+              style={styles.button}
+            />
+          </View>
           <View style={styles.input_container}>
             <TextInput
               style={styles.text_input}
@@ -58,7 +71,7 @@ export default class Home extends Component {
 
   const styles = StyleSheet.create({
     content_container: {
-      flex: 1,
+      flex: 8,
     },
     input_container: {
       marginBottom: 20
@@ -75,18 +88,25 @@ export default class Home extends Component {
       borderColor: '#CCC',
       borderWidth: 1,
       marginHorizontal: 25,
-      paddingHorizontal: 20
+      paddingHorizontal: 20,
+      marginTop: 10
     },
     button: {
       flex: 1,
-      padding: 6,
-      // borderRadius: 50,
-    }
+      padding: 6
+    },
+    logo: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 300,
+      height: 250,
+  }
   });
 
   Home.propTypes = {
     username: PropTypes.string,
     onPressCreateRoom: PropTypes.func.isRequired,
+    onPressCreateRoomSP: PropTypes.func.isRequired,
     onPressJoinRoom: PropTypes.func.isRequired,
     show_prompt: PropTypes.bool.isRequired,
     joinRoom: PropTypes.func.isRequired,
