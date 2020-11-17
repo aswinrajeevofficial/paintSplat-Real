@@ -12,6 +12,11 @@ import {
 
 import range from 'lodash.range';
 
+// Style variables for board
+const board_height = '50%';
+const board_width = '55%';
+
+// Style variables for the dots
 const height_proportion = '80%';
 const width_proportion = '95%';
 const border_radius = 30;
@@ -116,11 +121,22 @@ export default class Board extends Component {
             var opponent_color = this.state.xColor;
         }
 
+
+        var board_positions = [
+            {
+                'marginLeft': 10,
+                'marginTop': 10
+            }
+        ];
+
         return (
-            <View style={styles.board_container}>
-                <View style={styles.board}>
-                    {this.generateRows()}
+            <View style={styles.page_container}>
+                <View style={styles.board_container}>
+                    <View style={styles.board}>
+                        {this.generateRows()}
+                    </View>
                 </View>
+
 
                 <View style={styles.scores_container}>
 
@@ -142,6 +158,7 @@ export default class Board extends Component {
                         </Text>
                     </View>
                 </View>
+
             </View>
         );
     }
@@ -294,16 +311,24 @@ export default class Board extends Component {
 }
 
 const styles = StyleSheet.create({
+    page_container: {
+        flex: 9,
+    },
     board_container: {
-        flex: 9
+        flex: 6,
+        // flexDirection: 'column',
+        // alignItems: 'center',
+        // justifyContent: 'center',
     },
     board: {
-        flex: 7,
-        flexDirection: 'column',
+        // flex: 6,
+        // flexDirection: 'column',
         borderWidth: 2,
+        height: board_height,
+        width: board_width,
     },
     row: {
-        flex: 1,
+        flex: 9,
         flexDirection: 'row',
         //borderBottomWidth: 1,
     },
@@ -322,7 +347,7 @@ const styles = StyleSheet.create({
     scores_container: {
         flex: 2,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     score: {
         flex: 1,
