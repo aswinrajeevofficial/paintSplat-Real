@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
         height: board_height,
         width: board_width,
         padding: board_inner_padding,
-        borderRadius: 20,
+        borderRadius: 18,
     },
     row: {
         flex: 9,
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#000',
-        borderRadius: 20,
+        borderRadius: 18,
     },
     score: {
         flex: 1,
