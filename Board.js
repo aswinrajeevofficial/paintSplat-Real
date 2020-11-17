@@ -15,6 +15,7 @@ import range from 'lodash.range';
 // Style variables for board
 const board_height = '50%';
 const board_width = '60%';
+const board_inner_padding = '1%';
 
 // Style variables for the dots
 const height_proportion = '80%';
@@ -180,7 +181,8 @@ export default class Board extends Component {
             } else {
                 // Dot has not been clicked yet
                 // Set color of square to black
-                color = '#000';
+                // color = '#000';
+                color = this.backgroundColor;
             }
 
             return (
@@ -315,9 +317,11 @@ const styles = StyleSheet.create({
     board: {
         // flex: 6,
         // flexDirection: 'row',
-        borderWidth: 2,
+        borderWidth: 4,
         height: board_height,
         width: board_width,
+        padding: board_inner_padding,
+        borderRadius: 20,
     },
     row: {
         flex: 9,
@@ -328,7 +332,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#000',
+        // backgroundColor: '#000',
     },
     dot_style: {
         width: width_proportion,
@@ -341,6 +345,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#000',
+        borderRadius: 20,
     },
     score: {
         flex: 1,
@@ -348,10 +353,11 @@ const styles = StyleSheet.create({
     },
     user_score: {
         fontSize: 25,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     username: {
-        fontSize: 20
+        fontSize: 20,
+        fontWeight: 'bold'
     }
 });
 
